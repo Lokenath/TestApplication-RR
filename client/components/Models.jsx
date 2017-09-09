@@ -21,15 +21,23 @@ class Models extends Component{
         this.state = {
                         value: 1,
                         tableData: [
-                                    {id: "1", type: "sasd", user: "rtwwe", name: "dfsdsa", version: "sdfsf", desc:"", date: "dfgfg", status:"jshus"},
+                                    {name:"Maruti", type: "Hatchback", user:"Tom", version:"1.0", date: "24/02/1990", status:"Active"},
+                                    {name:"Tata", type: "Sedan", user:"Harry", version:"2.0", date: "24/02/1990", status:"Inactive"},
+                                    {name:"Mahindra", type: "SUV", user:"Jim", version:"2.0", date: "24/02/1990", status:"Active"},
+                                    {name:"Fiat", type: "Sedan", user:"Kelly", version:"3.0", date: "24/02/1990", status:"Incctive"},
+                                    {name:"Ford", type: "SUV", user:"Bam", version:"1.0", date: "24/02/1990", status:"Active"}
                                     ],
                         selectedRows: [],
-                        selectedRowCount: 0
+                        selectedRowCount: 0,
+                        searchString: "",
                      };
     }
 
     handleChange(event, index, value){
         this.setState({value});
+    }
+    handleSearchInput(event,value){
+        this.setState({searchString : value});
     }
     
     handleRowSelection(selectedRows){
@@ -82,14 +90,14 @@ class Models extends Component{
                                 <div className={((this.state.selectedRowCount > 0 ) ? "tableHeaderInitialActions hideContent" : "tableHeaderInitialActions")}>
                                   <p className="tableHeaderText">5 Items</p>
                                   <div>
-                                      <TextField className="headerSearchInput" hintText="Search"/>
+                                      <TextField className="headerSearchInput" onChange={this.handleSearchInput.bind(this)} hintText="Search"/>
                                       <IconButton tooltip="" className="tableheaderSearchIcon">
                                           <SearchIcon/>
                                       </IconButton>
                                   </div>
                               </div>
                               <div className={((this.state.selectedRowCount > 0 ) ? "tableHeaderItemSelectedActions" : "tableHeaderItemSelectedActions hideContent")}>
-                                  <span>{this.state.selectedRowCount} Models Selected</span>
+                                  <span>{this.state.selectedRowCount} Cars Selected</span>
                                   <div className="tableRightBtnCont">
                                       <RaisedButton primary={true} icon={<CompareIcon />} label="Check"  disabled={!(this.state.selectedRowCount > 1)} href="#/home/modelscompare" />
                                   </div>
@@ -97,17 +105,19 @@ class Models extends Component{
                             </TableHeaderColumn>
                           </TableRow>
                             <TableRow className="euclidTableHeader">
-                              <TableHeaderColumn>Header 1</TableHeaderColumn>
-                              <TableHeaderColumn>Header 1</TableHeaderColumn>
-                              <TableHeaderColumn>Header 1</TableHeaderColumn>
-                              <TableHeaderColumn>Header 1</TableHeaderColumn>
-                              <TableHeaderColumn>Header 1</TableHeaderColumn>
-                              <TableHeaderColumn>Header 1</TableHeaderColumn>
+                              <TableHeaderColumn>Name</TableHeaderColumn>
+                              <TableHeaderColumn>Type</TableHeaderColumn>
+                              <TableHeaderColumn>User</TableHeaderColumn>
+                              <TableHeaderColumn>Version</TableHeaderColumn>
+                              <TableHeaderColumn>Date</TableHeaderColumn>
+                              <TableHeaderColumn>Status</TableHeaderColumn>
                             </TableRow>
                           </TableHeader>
                               
                           <TableBody displayRowCheckbox={true} deselectOnClickaway={false}>
-                            {this.state.tableData.map((d, i) => {
+                            {this.state.tableData.filter((eachItem) => { 
+                                  return (eachItem.name.includes(this.state.searchString) || eachItem.type.includes(this.state.searchString) || eachItem.user.includes(this.state.searchString)) 
+                                  }).map((d, i) => {
                                   return <TableRow key={i} selectable={true} selected={this.state.selectedRows.indexOf(i) !== -1}>
                                       <TableRowColumn>{d.name}</TableRowColumn>
                                       <TableRowColumn>{d.type}</TableRowColumn>

@@ -12,6 +12,7 @@ import Models from './Models.jsx';
 import ModelDetails from './ModelDetails.jsx';
 import ReleaseManagement from './ReleaseManagement.jsx';
 import ModelsCompare from './ModelsCompare.jsx';
+import EmptyPage from './EmptyPage.jsx';
 
 import { connect } from 'react-redux';
 
@@ -39,6 +40,7 @@ class App extends Component {
 	      <Router history={hashHistory}>
 	        <Route path='/' component={Container}>
 	          <Route path='/login' component={Login} />
+              <Route path='/empty' component={EmptyPage} />
 	          <Route path='/home' component={Home}>
                 <Route path='/home/dashboard' component={Dashboard} />
 	          	<Route path='/home/models' component={Models} />
