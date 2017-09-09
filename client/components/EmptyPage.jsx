@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
@@ -17,6 +18,8 @@ import DeleteIcon from 'react-material-icons/icons/action/delete';
 import dataIcon from '../img/dataicon.png';
 
 import VerticalMoreIcon from 'react-material-icons/icons/navigation/more-vert';
+
+import axios from 'axios';
 
 //Reudx 
 import { connect } from 'react-redux';
@@ -42,6 +45,7 @@ class EmptyPage extends Component{
         this.state = {
                             value: 1,
                             value2: 1,
+                            resultData: []
                      };
     }
     
@@ -53,21 +57,35 @@ class EmptyPage extends Component{
     handleChange(event, index, value){
         this.setState({value : value});
     }
-    
-    handleChange2(event, index, value){
-        this.setState({value2 :  value});
-    }
     testClick(){
         this.props.dispatch(setUserName());
     };
     fetchTweets(){
         this.props.dispatch(fetchTweets());
     };
+    
+    makeGetCall(){
+        axios.get("http://rest.learncode.academy/api/wstern/users")
+        .then((response) => {
+            this.setState({resultData: response.data });
+            console.log(this.state.resultData);
+        })
+        .catch((err) => {
+            dispatch({resultData: err});
+        })
+    }
+    
     render () {
 
     return (
             <Container fluid={true}>
-                Hello Empty Page    
+                <h3>Hello Empty Page</h3>    
+                <RaisedButton label="Fetch Data" onClick={this.makeGetCall.bind(this)}/> 
+                <ol>
+                {   this.state.resultData.map((eachItem, index) => {
+                        return <li>Name : <strong>{eachItem.name}</strong> &nbsp;&nbsp;&nbsp; Age: <strong>{eachItem.age}</strong></li>
+                })}
+                </ol>
             </Container>
         )
     }
