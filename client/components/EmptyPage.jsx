@@ -65,25 +65,59 @@ class EmptyPage extends Component{
     };
     
     makeGetCall(){
-        axios.get("http://rest.learncode.academy/api/wstern/users")
+        axios.get("http://rest.learncode.academy/api/johnbob/friends")
         .then((response) => {
-            this.setState({resultData: response.data });
-            console.log(this.state.resultData);
+            this.setState(
+                    {resultData: response.data.filter(function(eachItem){
+                        return eachItem.name 
+                    }) }
+                    );
         })
         .catch((err) => {
             dispatch({resultData: err});
         })
     }
-    
+    makePostCall(){
+        axios.post("http://rest.learncode.academy/api/johnbob/friends",
+                {name:"Lokenath", age: "27"})
+        .then((response) => {
+            console.log("New Added" + response);
+        })
+        .catch((err) => {
+            dispatch({resultData: err});
+        })
+    }
+    makePutCall(){
+        axios.put("http://rest.learncode.academy/api/johnbob/friends/59b3e0fafae4280100fce5f6",
+                {name:"Jimmy", age: "28"})
+        .then((response) => {
+            console.log("Edited" + response);
+        })
+        .catch((err) => {
+            dispatch({resultData: err});
+        })
+    }
+    makeDeleteCall(){
+        axios.delete("http://rest.learncode.academy/api/johnbob/friends/59b3e0d7fae4280100fce5f5")
+        .then((response) => {
+            console.log("Deleted" + response);
+        })
+        .catch((err) => {
+            dispatch({resultData: err});
+        })
+    }
     render () {
 
     return (
             <Container fluid={true}>
                 <h3>Hello Empty Page</h3>    
-                <RaisedButton label="Fetch Data" onClick={this.makeGetCall.bind(this)}/> 
+                <RaisedButton label="GET Data" onClick={this.makeGetCall.bind(this)}/> 
+                <RaisedButton primary={true} label="POST Data" onClick={this.makePostCall.bind(this)}/>
+                <RaisedButton primary={true} label="PUT Data" onClick={this.makePutCall.bind(this)}/>
+                <RaisedButton secondary={true} label="Delete" onClick={this.makeDeleteCall.bind(this)}/>
                 <ol>
                 {   this.state.resultData.map((eachItem, index) => {
-                        return <li>Name : <strong>{eachItem.name}</strong> &nbsp;&nbsp;&nbsp; Age: <strong>{eachItem.age}</strong></li>
+                        return <li key={index}>Name : <strong>{eachItem.name}</strong> &nbsp;&nbsp;&nbsp; Age: <strong>{eachItem.age}</strong></li>
                 })}
                 </ol>
             </Container>
