@@ -50,6 +50,14 @@ const data = [
 
         ];
 
+const StatelessComponent = () =>{
+    return(
+            <div>
+                My Stateless Compoenet
+            </div>
+    );
+}
+
 @connect((store) =>{
     return {
         user: store.user,
@@ -88,18 +96,19 @@ class Dashboard extends Component{
 
     return (
             <Container fluid={true}>
-                <Row>
-                    <Col xs="6">
-                      <span className="bodyHeader">{this.props.user.name}</span>
-                      <FlatButton label="Add Name" onClick={this.testClick.bind(this)}/>
-                      <FlatButton label="Fetch tweets" onClick={this.fetchTweets.bind(this)}/>
-                    </Col>
-                </Row>
-                <Row className="removeMarginLeftRight marginTop38px">
+                   <Row>
+                        <Col xs="6">
+                          <span className="bodyHeader">{this.props.user.name}</span>
+                          <FlatButton label="Add Name" onClick={this.testClick.bind(this)}/>
+                          <FlatButton label="Fetch tweets" onClick={this.fetchTweets.bind(this)}/>
+                        </Col>
+                   </Row>
+                   <Row className="removeMarginLeftRight marginTop38px">
                       <Col xs="12" className="modelDetailsHeader">
                         Hello 
                       </Col>
                   </Row>
+                  <StatelessComponent/>
                   <br/>                
                   <div className="euclidChartContainer">
                       <Row>
