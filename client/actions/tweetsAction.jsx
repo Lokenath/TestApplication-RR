@@ -6,14 +6,27 @@ const initialState = {
         users: [],
         error: null
 }
+
+function recieveUser(data){
+    return {
+        type: "RECEIVE_USERS",
+        payload: data
+    }
+}
+function recieveUserError(err){
+    return {
+        type: "FETCH_ERROR",
+        payload: err
+    }
+}
 export function fetchTweets(state=initialState, action){
     return  function (dispatch){
         axios.get("http://rest.learncode.academy/api/wstern/users")
         .then((response) => {
-            dispatch({type: "RECEIVE_USERS", payload: response.data });
+            dispatch(recieveUser(response.data));
         })
         .catch((err) => {
-            dispatch({type: "FETCH_ERROR", payload: err});
+            dispatch(recieveUserError(err));
         })
     }
 }
